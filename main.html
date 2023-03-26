@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+        </svg>
+    </body>
+</html>
+<script>
+
+let wiring = [
+    [0,0],
+    [0,1],
+    [1,0],
+    [1,1],
+    [5,5],
+    [2,2]
+];
+
+class CircuitGameV2 {
+    constructor (wiring) {
+        this.wiring = [[0,0],[1,1]].concat(wiring);
+        this.stat = new Uint8Array(this.wiring.length);
+        this.newstat = new Uint8Array(this.wiring.length);
+        this.stat[1] = 1;this.newstat[1] = 1;
+    }
+    next() {
+        for (let i=2;i<this.wiring.length;i++) {
+            this.newstat[i] = Number(!(this.get_stat(this.wiring[i][0])&&this.get_stat(this.wiring[i][1])));
+        }
+        this.stat = this.newstat.slice(0,this.stat.length)
+    }
+    get_stat(adr) {
+        if (adr>1) {return this.stat[adr];}
+        else {return adr;}
+    }
+}
+
+let runtime = new CircuitGameV2(wiring);
+for (let a=0;a<10;a++) {
+    console.log(runtime.stat);
+    runtime.next();
+}
+
+</script>
